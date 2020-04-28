@@ -1,0 +1,70 @@
+#include<stdio.h>
+
+int main()
+{
+	FILE *in,*out;
+	char ch,f1[80],f2[80];
+	long loc;
+	
+
+	printf("\n Enter Name of Source File:");
+	scanf("%s",&f1);
+
+	printf("\n Enter Name of Target File:");
+	scanf("%s",&f2);
+	in=fopen(f1,"w");
+	if(f1==NULL)
+	{
+		printf("\nCannot open file");
+		reurn(0);
+	}
+	else
+	{
+		printf("\nEnter data in file %s(Press q to stop):",f1);
+		while(1)
+		{
+			ch=getchar();
+			if(ch=='q')
+				break;
+			else
+				fputc(ch,in);
+		}
+		fclose(in);
+	}
+	in=fopen(f1,"r");
+	if(f1==NULL)
+	{
+		printf("\nfile does not exist");
+		return(0);
+	}
+	out=fopen(f2,"w");
+	if(f2==NULL)
+	{
+		printf("\ncannot open file");
+		return(0);
+	}
+
+
+
+	fseek(in, 0, SEEK_END);
+	loc = ftell(in);
+
+
+	loc = loc-1;
+
+	while(loc >= 0)
+	{
+		fseek(in, loc, SEEK_END);
+	  ch = fgetc(in);
+	  fputc(ch, out);
+	  printf("%c",ch);
+	  loc--;
+	}
+	printf("\nfile copied in reverse order successfully");
+
+
+
+	fclose(in);
+	fclose(out);
+	return 0;
+}
